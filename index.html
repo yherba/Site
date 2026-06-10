@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PourScore — know a coffee before you buy it</title>
+<meta name="description" content="PourScore tells you how likely you are to enjoy a coffee before you buy the bag. Early build, invite-only." />
+<style>
+  :root {
+    --bg: #EDE4D2;
+    --bg-warm: #F3ECDC;
+    --card: #FAF4E4;
+    --ink: #1C140C;
+    --ink-soft: #2E241A;
+    --muted: #7A6B56;
+    --line: #C7BA9E;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 22px 96px;
+  }
+
+  /* ---- masthead ---- */
+  header.top {
+    padding: 64px 0 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .wordmark {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    font-size: clamp(40px, 11vw, 60px);
+    line-height: 1.02;
+    margin: 0 0 18px;
+  }
+  .thesis {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(19px, 4.5vw, 23px);
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 30ch;
+  }
+  .invite {
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* ---- sections ---- */
+  section { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 6vw, 30px);
+    letter-spacing: -0.3px;
+    margin: 8px 0 18px;
+  }
+  p { margin: 0 0 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--line); }
+  a:hover { text-decoration-color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+
+  /* ---- numbered runs (recipe-card feel) ---- */
+  ol.run { list-style: none; counter-reset: step; margin: 4px 0 0; padding: 0; }
+  ol.run > li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 20px 46px;
+    margin: 0;
+  }
+  ol.run > li:last-child { padding-bottom: 0; }
+  ol.run > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: -2px;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+  }
+  ol.run strong { font-weight: 600; }
+
+  .note {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 22px;
+  }
+  .note .label {
+    font-size: 11px; letter-spacing: 1.5px; font-weight: 600;
+    text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.92em;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 6px;
+  }
+
+  .fill { color: #9A5B2E; font-style: italic; }
+
+  /* ---- privacy list ---- */
+  ul.plain { margin: 4px 0 0; padding-left: 20px; }
+  ul.plain li { margin-bottom: 12px; }
+  ul.plain li:last-child { margin-bottom: 0; }
+
+  footer {
+    padding-top: 36px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer p { margin: 0 0 6px; }
+
+  .pairs { margin-top: 6px; }
+  .pair { padding: 14px 0; border-top: 1px solid var(--line); }
+  .pair:first-child { border-top: 0; padding-top: 4px; }
+  .dim { display: block; font-size: 11px; letter-spacing: 1.5px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .opts { font-size: 16px; color: var(--ink-soft); }
+  .opts em { font-style: normal; color: var(--muted); padding: 0 5px; }
+
+  main { opacity: 0; transform: translateY(8px); animation: rise .5s ease forwards; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    main { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">A coffee companion</p>
+    <h1 class="wordmark">PourScore</h1>
+    <p class="thesis">Know whether a coffee is for you — before you buy the bag.</p>
+    <p class="invite">An early build, shared with a small group. Thanks for taking a look.</p>
+  </header>
+
+  <main>
+
+    <section>
+      <p class="eyebrow">What it is</p>
+      <h2>A second opinion at the shelf</h2>
+      <p>You tell PourScore what you like in a cup. It takes the details off a coffee — the origin, process, roast, tasting notes — and gives you a plain read on how likely you are to enjoy it. No hype, no five-star theatre: when it doesn't have enough to go on, it says so.</p>
+      <p>Once a coffee's in your hands, you can log how each brew actually tasted and keep track of the recipe that worked best. Over time it becomes a quiet record of what you reach for and why.</p>
+    </section>
+
+    <section>
+      <p class="eyebrow">Getting started</p>
+      <h2>Your first ten minutes</h2>
+      <p>Start by setting your coffee preferences. It takes about a minute and gives PourScore enough context to offer a read. After that, add a coffee manually or scan a bag.</p>
+      <ol class="run">
+        <li><strong>Set your taste preferences first.</strong> It takes a minute, and PourScore needs them to give you a read — skip it and the verdict comes back blank.</li>
+        <li><strong>Add two or three coffees manually.</strong> On the home screen tap “Add manually” and type in whatever's on a bag you've got — roaster, origin, process, roast level, tasting notes. Rough guesses are fine.</li>
+        <li><strong>Open one and look at its read.</strong> That's PourScore's best guess at whether it's a coffee you'd enjoy, before you commit to it.</li>
+        <li><strong>Log a brew.</strong> Jot down how it actually tasted. That's the part that gets smarter the more you use it.</li>
+      </ol>
+    </section>
+
+    <section>
+      <p class="eyebrow">Not sure what you like?</p>
+      <h2>Start from the cup you'd choose</h2>
+      <p>If specialty coffee is new to you, don't overthink it — pick the roast and the few flavors that sound like the cup you'd reach for. You can change it later, and it's fine to leave the rest blank for now.</p>
+      <div class="pairs">
+        <div class="pair">
+          <span class="dim">Roast</span>
+          <span class="opts">Light, delicate <em>·</em> medium, balanced <em>·</em> dark, bold and roasty</span>
+        </div>
+        <div class="pair">
+          <span class="dim">Flavors — tap any that sound good</span>
+          <span class="opts">Fruity (berry, citrus, juicy) <em>·</em> Bright (lively, zippy) <em>·</em> Floral (delicate, tea-like) <em>·</em> Chocolatey (cocoa, comforting) <em>·</em> Nutty (almond, mellow) <em>·</em> Clean (crisp, easy-drinking) <em>·</em> Funky (wild, surprising)</span>
+        </div>
+      </div>
+      <p style="margin-top:18px;">Prefer smooth, low-acid coffees? Just leave Bright unselected.</p>
+      <p>Origin and process are in there too — but if those words don't mean much yet, skip them. They're easy to add once you know what you reach for.</p>
+    </section>
+
+    <section>
+      <p class="eyebrow">Scanning a bag</p>
+      <h2>Optional: read a bag from a photo</h2>
+      <p>PourScore can read a bag's details straight from a photo, so you don't have to type them. That feature uses Claude (Anthropic's AI), and for now it runs on <em>your own</em> Anthropic key rather than a shared one — so scanning is opt-in, and you only pay for what you use. Skip this entirely if you just want to try the manual flow above.</p>
+      <p>If you do want to scan, here's how to get a key. It's quick, and each scan costs roughly a cent or two — a few dollars of credit lasts a long while.</p>
+      <ol class="run">
+        <li><strong>Make an account.</strong> Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign up or sign in (email or Google).</li>
+        <li><strong>Add a little credit.</strong> Open <strong>Billing</strong>, add a payment method, and buy a small amount of credit — the API is pay-as-you-go. While you're there, set a spend limit so there are no surprises.</li>
+        <li><strong>Create the key.</strong> Go to <strong>Settings → API Keys</strong>, click <strong>Create Key</strong>, give it a name like <code>PourScore</code>, and copy it right away. It starts with <code>sk-ant-</code> and won't be shown again.</li>
+        <li><strong>Paste it into PourScore.</strong> Open <strong>Settings</strong> in the app and paste the key. It's stored in your phone's secure Keychain and is only ever sent to Anthropic when you scan a bag.</li>
+      </ol>
+      <div class="note">
+        <span class="label">If a key feels like a hassle</span>
+        It's completely fine to skip scanning for now and add coffees by hand. The read, the brew logging, and everything that makes PourScore useful work without a key.
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Your data</p>
+      <h2>Where everything lives</h2>
+      <p>PourScore is built to stay on your phone. There's no account to create and no server holding your information.</p>
+      <ul class="plain">
+        <li>Your coffees, preferences, and brew logs are stored only on your device.</li>
+        <li>If you add an Anthropic API key for scanning, it's kept in your device's secure Keychain — not in the app's regular storage, and never on any server of ours.</li>
+        <li>When you scan a bag, that photo and the text read from it are sent to Anthropic's API to pull out the details. That's the only time anything leaves your phone, and it only happens when you choose to scan.</li>
+        <li>Photos you attach stay in your own photo library; the app just points to them.</li>
+        <li>PourScore has no analytics and doesn't track you. We don't sell or share your information, because we never collect it in the first place.</li>
+      </ul>
+      <p style="margin-top:16px;">Deleting a coffee removes it and its brew history from the app. Questions about any of this? Reach out below.</p>
+    </section>
+
+    <section>
+      <p class="eyebrow">Feedback &amp; contact</p>
+      <h2>Tell me what you think</h2>
+      <p>This is a work in progress and your honest reactions are the whole point. Three things I'd love to hear: did the read feel right or off, where did you get stuck, and would you actually open it again?</p>
+     <p>Use the feedback button in TestFlight, or <a id="contact-link" href="#">email me directly</a>.</p>
+      <script>
+        (function () {
+          var user = 'vicki.ai';
+          var domain = 'gmail.com';
+          var link = document.getElementById('contact-link');
+          if (link) link.href = 'mailto:' + user + '@' + domain;
+        })();
+      </script>
+
+    <footer>
+      <p>PourScore is an independent project, currently in private beta.</p>
+      <p>Last updated June 2026.</p>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>
