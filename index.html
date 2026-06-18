@@ -218,31 +218,27 @@
 
     <section>
       <p class="eyebrow">Scanning a bag</p>
-      <h2>Optional: read a bag from a photo</h2>
-      <p>PourScore can read a bag's details straight from a photo, so you don't have to type them. That feature uses Claude (Anthropic's AI), and for now it runs on <em>your own</em> Anthropic key rather than a shared one — so scanning is opt-in, and you only pay for what you use. Skip this entirely if you just want to try the manual flow above.</p>
-      <p>If you do want to scan, here's how to get a key. It's quick, and each scan costs roughly a cent or two — a few dollars of credit lasts a long while.</p>
+      <h2>Read a bag from a photo</h2>
+      <p>Point your camera at a coffee bag and PourScore reads the details for you — roaster, origin, process, roast, tasting notes — so you don't have to type them in. No Anthropic account or API key needed: setup is just a one-time access code.</p>
       <ol class="run">
-        <li><strong>Make an account.</strong> Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign up or sign in (email or Google).</li>
-        <li><strong>Add a little credit.</strong> Open <strong>Billing</strong>, add a payment method, and buy a small amount of credit — the API is pay-as-you-go. While you're there, set a spend limit so there are no surprises.</li>
-        <li><strong>Create the key.</strong> Go to <strong>Settings → API Keys</strong>, click <strong>Create Key</strong>, give it a name like <code>PourScore</code>, and copy it right away. It starts with <code>sk-ant-</code> and won't be shown again.</li>
-        <li><strong>Paste it into PourScore.</strong> Open <strong>Settings</strong> in the app and paste the key. It's stored in your phone's secure Keychain and is only ever sent to Anthropic when you scan a bag.</li>
+        <li><strong>Update to the latest TestFlight build.</strong></li>
+        <li><strong>Open Settings</strong> in the app.</li>
+        <li><strong>Paste the access code</strong> from your TestFlight invite.</li>
+        <li><strong>Start scanning.</strong> Tap Scan, point at a bag, and PourScore fills in the details for you to check and save.</li>
       </ol>
-      <div class="note">
-        <span class="label">If a key feels like a hassle</span>
-        It's completely fine to skip scanning for now and add coffees by hand. The read, the brew logging, and everything that makes PourScore useful work without a key.
-      </div>
+      <p>You can still add coffees by hand anytime — scanning is just the faster way in.</p>
     </section>
 
     <section>
       <p class="eyebrow">Your data</p>
       <h2>Where everything lives</h2>
-      <p>PourScore is built to stay on your phone. There's no account to create and no server holding your information.</p>
+      <p>PourScore keeps your library on your phone. There's no account to create and nothing to sign into.</p>
       <ul class="plain">
         <li>Your coffees, preferences, and brew logs are stored only on your device.</li>
-        <li>If you add an Anthropic API key for scanning, it's kept in your device's secure Keychain — not in the app's regular storage, and never on any server of ours.</li>
-        <li>When you scan a bag, that photo and the text read from it are sent to Anthropic's API to pull out the details. That's the only time anything leaves your phone, and it only happens when you choose to scan.</li>
+        <li>Setup uses a one-time access code, saved on your device — there's no personal API key to manage.</li>
+        <li>When you scan a bag, the photo is sent to PourScore's scanning service, which passes it to Anthropic's AI to read the label and returns the details to your phone. That's the only time the contents of a scan leave your device, and only when you choose to scan.</li>
         <li>Photos you attach stay in your own photo library; the app just points to them.</li>
-        <li>PourScore has no analytics and doesn't track you. We don't sell or share your information, because we never collect it in the first place.</li>
+        <li>PourScore doesn't track you or run analytics.</li>
       </ul>
       <p style="margin-top:16px;">Deleting a coffee removes it and its brew history from the app. Questions about any of this? Reach out below.</p>
     </section>
